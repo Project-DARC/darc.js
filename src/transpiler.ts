@@ -1,6 +1,3 @@
-//import operatorOverloadPlugin from "./operator-overload-plugin/plugin";
-//import * as jetblack_operator_overload from './operator-overload-plugin/jetblack_operator_overload';
-
 export function transpiler(sourceCode: string): string {
 
   // compile the source code with babel standalone

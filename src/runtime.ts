@@ -1,4 +1,4 @@
-import * as prelude from './instruction-code-generator/instruction-codegen';
+import * as prelude from './codeGenerator/codeGenerator';
 
 export function runtime(){
 

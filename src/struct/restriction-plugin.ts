@@ -1,4 +1,4 @@
-import { ConditionNode } from "../expression-tree-nodes/ConditionNode";
+import { ConditionNode } from "../plugin/ConditionNode";
 import { VotingParameters } from "./voting-param";
 
 class RestrictionPlugin {

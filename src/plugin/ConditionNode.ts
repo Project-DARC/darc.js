@@ -1,7 +1,7 @@
 // The basic abstact syntax tree node of the expression tree
 // representing the condition of a restriction plugin condition
 
-import { Expression } from "./expression";
+import { Expression } from "./Expression";
 
 enum ConditionNodeType { ExpressionNode, LogicalOperatorNode, BooleanValueNode}
 enum LogicalOperatorType {AND, OR, NOT}
