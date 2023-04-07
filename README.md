@@ -2,7 +2,7 @@
 
 The official JavaScript client and SDK for Project DARC (Decentralized Autonomous Regulated Company), and the compiler and runtime for By-Law Script.
 
-## How to use
+## Quickstart
 
 ### Installation
 

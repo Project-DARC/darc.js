@@ -1,7 +1,7 @@
 
 import { expect } from 'chai';
 import 'mocha';
-import { TreeNode, Expression, TreeNodeType, LogicalOperatorType } from '../src/expression-tree-nodes/TreeNode';
+import { ConditionNode, Expression, ConditionNodeType, LogicalOperatorType } from '../src/expression-tree-nodes/ConditionNode';
 import { transpiler } from '../src/transpiler';
 
 describe('Operator Test', 
@@ -10,10 +10,10 @@ describe('Operator Test',
 
       const code = `
       'operator-overloading enabled';
-      let treeNode1 = new TreeNode(TreeNodeType.ExpressionNode, Expression.Operation_Equals, null, [1, 2]);
-      let treeNode2 = new TreeNode(TreeNodeType.ExpressionNode, Expression.Operation_Equals, null, [1, 2]);
+      let ConditionNode1 = new ConditionNode(ConditionNodeType.ExpressionNode, Expression.Operation_Equals, null, [1, 2]);
+      let ConditionNode2 = new ConditionNode(ConditionNodeType.ExpressionNode, Expression.Operation_Equals, null, [1, 2]);
 
-      let newTreeNode = treeNode1 + treeNode2;
+      let newConditionNode = ConditionNode1 + ConditionNode2;
       `; 
       
 

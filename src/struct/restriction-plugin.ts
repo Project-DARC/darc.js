@@ -1,13 +1,13 @@
-import { TreeNode } from "../expression-tree-nodes/TreeNode";
+import { ConditionNode } from "../expression-tree-nodes/ConditionNode";
 import { VotingParameters } from "./voting-param";
 
 class RestrictionPlugin {
   restrictionPluginDescription: string;
-  conditionExpressionTreeRootNode: TreeNode;
+  conditionExpressionTreeRootNode: ConditionNode;
   restrictionPluginReturnType: RestrictionPluginReturnType;
   votingParameters: VotingParameters | null;
   restrictionPluginType: RestrictionPluginType;
-  constructor(restrictionPluginDescription: string, conditionExpressionTreeRootNode: TreeNode, restrictionPluginReturnType: RestrictionPluginReturnType, votingParameters: VotingParameters | null, restrictionPluginType: RestrictionPluginType) {
+  constructor(restrictionPluginDescription: string, conditionExpressionTreeRootNode: ConditionNode, restrictionPluginReturnType: RestrictionPluginReturnType, votingParameters: VotingParameters | null, restrictionPluginType: RestrictionPluginType) {
     this.restrictionPluginDescription = restrictionPluginDescription;
     this.conditionExpressionTreeRootNode = conditionExpressionTreeRootNode;
     this.restrictionPluginReturnType = restrictionPluginReturnType;

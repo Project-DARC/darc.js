@@ -1,6 +1,6 @@
-import {TreeNode, Expression, TreeNodeType, LogicalOperatorType} from  "../expression-tree-nodes/TreeNode";
+import {ConditionNode, Expression, ConditionNodeType, LogicalOperatorType} from  "../expression-tree-nodes/ConditionNode";
 
 // todo: add more expression types
-export function expressionTreeCodegen(rootNode: TreeNode): string {
+export function expressionTreeCodegen(rootNode: ConditionNode): string {
   return "";
 }

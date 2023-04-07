@@ -1,26 +1,26 @@
 // The basic abstact syntax tree node of the expression tree
 // representing the condition of a restriction plugin condition
 
-import { Expression } from "../expression-tree-nodes/expression";
+import { Expression } from "./expression";
 
-enum TreeNodeType { ExpressionNode, LogicalOperatorNode, BooleanValueNode}
+enum ConditionNodeType { ExpressionNode, LogicalOperatorNode, BooleanValueNode}
 enum LogicalOperatorType {AND, OR, NOT}
 
-class TreeNode {
-    type: TreeNodeType;
+class ConditionNode {
+    type: ConditionNodeType;
     expression: Expression | null;
     logicalOperator: LogicalOperatorType | null;
     expressionParameters: (number|string|bigint)[] | null;
     booleanValue: boolean | null;
-    leftChild: TreeNode | null;
-    rightChild: TreeNode | null;
-    constructor(type: TreeNodeType, 
+    leftChild: ConditionNode | null;
+    rightChild: ConditionNode | null;
+    constructor(type: ConditionNodeType, 
         expression: Expression | null, 
         logicalOperator: LogicalOperatorType | null, 
         expressionParameters:  (number|string|bigint)[] | null,
         booleanValue: boolean | null = null,
-        leftChild: TreeNode | null = null,
-        rightChild: TreeNode | null = null) {
+        leftChild: ConditionNode | null = null,
+        rightChild: ConditionNode | null = null) {
         this.type = type;
         this.expression = expression;
         this.logicalOperator = logicalOperator;
@@ -38,13 +38,13 @@ class TreeNode {
         const leftChileString = this.leftChild ? this.leftChild.serializeToString() : null;
         const rightChildString = this.rightChild ? this.rightChild.serializeToString() : null;
         let returnString = "";
-        if (this.type === TreeNodeType.ExpressionNode) {
+        if (this.type === ConditionNodeType.ExpressionNode) {
             returnString+= `Expression: ${this.expression}(${this.expressionParameters})`;
         }
-        else if (this.type === TreeNodeType.LogicalOperatorNode) {
+        else if (this.type === ConditionNodeType.LogicalOperatorNode) {
             returnString+= `LogicalOperator: ${this.logicalOperator}`;
         }
-        else if (this.type === TreeNodeType.BooleanValueNode) {
+        else if (this.type === ConditionNodeType.BooleanValueNode) {
             returnString+= `BooleanValue: ${this.booleanValue}`;
         }
         if (leftChileString) {
@@ -59,8 +59,8 @@ class TreeNode {
     // if an operator "&&" is used, the expression will return a 
     // logical operator node with current node as left child, and 
     // the right operand as right child, and the operator type is "&&"
-    [Symbol.for('&&')] (rightOperand: TreeNode): TreeNode {
-        let logicalOperatorNode = new TreeNode(TreeNodeType.LogicalOperatorNode, null, LogicalOperatorType.AND, null);
+    [Symbol.for('&&')] (rightOperand: ConditionNode): ConditionNode {
+        let logicalOperatorNode = new ConditionNode(ConditionNodeType.LogicalOperatorNode, null, LogicalOperatorType.AND, null);
         logicalOperatorNode.leftChild = this;
         logicalOperatorNode.rightChild = rightOperand;
         return logicalOperatorNode;
@@ -69,8 +69,8 @@ class TreeNode {
     // if an operator "||" is used, the expression will return a
     // logical operator node with current node as left child, and
     // the right operand as right child, and the operator type is "||"
-    [Symbol.for('||')] (rightOperand: TreeNode): TreeNode {
-        let logicalOperatorNode = new TreeNode(TreeNodeType.LogicalOperatorNode, null, LogicalOperatorType.OR, null);
+    [Symbol.for('||')] (rightOperand: ConditionNode): ConditionNode {
+        let logicalOperatorNode = new ConditionNode(ConditionNodeType.LogicalOperatorNode, null, LogicalOperatorType.OR, null);
         logicalOperatorNode.leftChild = this;
         logicalOperatorNode.rightChild = rightOperand;
         return logicalOperatorNode;
@@ -79,8 +79,8 @@ class TreeNode {
     // if an operator "!" is used, the expression will return a
     // logical operator node with current node as left child, and
     // a null object as right child, and the operator type is "!"
-    [Symbol.for('!')] (): TreeNode {
-        let logicalOperatorNode = new TreeNode(TreeNodeType.LogicalOperatorNode, null, LogicalOperatorType.NOT, null);
+    [Symbol.for('!')] (): ConditionNode {
+        let logicalOperatorNode = new ConditionNode(ConditionNodeType.LogicalOperatorNode, null, LogicalOperatorType.NOT, null);
         logicalOperatorNode.leftChild = this;
         return logicalOperatorNode;
     }
@@ -88,7 +88,7 @@ class TreeNode {
     // check if the current node is a valid logical operator node,
     // and throw an exception if it is not
     isValidLogicalOperatorNode(){
-        if (this.type === TreeNodeType.LogicalOperatorNode){
+        if (this.type === ConditionNodeType.LogicalOperatorNode){
             // check if the logical operator type is null
             if (this.logicalOperator === null){
                 throw new Error("The logical operator type of the current node is null. \n\
@@ -114,7 +114,7 @@ class TreeNode {
     // check if the current node is a valid expression node,
     // and throw an exception if it is not
     isValidExpressionNode(){
-        if (this.type === TreeNodeType.ExpressionNode){
+        if (this.type === ConditionNodeType.ExpressionNode){
             // check if the expression type is null
             if (this.expression === null){
                 throw new Error("The expression type of the current expression node is null. \n\
@@ -131,7 +131,7 @@ class TreeNode {
     // check if the current node is a valid boolean value node,
     // and throw an exception if it is not
     isValidBooleanValueNode(){
-        if (this.type === TreeNodeType.BooleanValueNode){
+        if (this.type === ConditionNodeType.BooleanValueNode){
             // check if the boolean value is null
             if (this.booleanValue === null){
                 throw new Error("The boolean value of the current boolean value node is null. \n\
@@ -162,4 +162,4 @@ class TreeNode {
 }
 
 
-export { TreeNode, Expression, TreeNodeType, LogicalOperatorType };
+export { ConditionNode, Expression, ConditionNodeType, LogicalOperatorType };
