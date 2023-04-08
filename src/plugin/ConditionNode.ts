@@ -12,8 +12,7 @@ class ConditionNode {
     logicalOperator: LogicalOperatorType | null;
     expressionParameters: (number|string|bigint)[] | null;
     booleanValue: boolean | null;
-    leftChild: ConditionNode | null;
-    rightChild: ConditionNode | null;
+    childList: ConditionNode[] = [];
     constructor(type: ConditionNodeType, 
         expression: Expression | null, 
         logicalOperator: LogicalOperatorType | null, 
@@ -25,8 +24,7 @@ class ConditionNode {
         this.expression = expression;
         this.logicalOperator = logicalOperator;
         this.expressionParameters = expressionParameters;
-        this.leftChild = leftChild;
-        this.rightChild = rightChild;
+        this.childList = [];
         this.booleanValue = booleanValue;
 
         // validate the node
@@ -35,8 +33,7 @@ class ConditionNode {
     }
 
     serializeToString(): string {
-        const leftChileString = this.leftChild ? this.leftChild.serializeToString() : null;
-        const rightChildString = this.rightChild ? this.rightChild.serializeToString() : null;
+        const childListString = this.childList.length == 0 ? this.childList.map((child) => child.serializeToString()).join(" ") : null;
         let returnString = "";
         if (this.type === ConditionNodeType.ExpressionNode) {
             returnString+= `Expression: ${this.expression}(${this.expressionParameters})`;
@@ -47,11 +44,8 @@ class ConditionNode {
         else if (this.type === ConditionNodeType.BooleanValueNode) {
             returnString+= `BooleanValue: ${this.booleanValue}`;
         }
-        if (leftChileString) {
-            returnString+= ` LeftChild: ${leftChileString}`;
-        }
-        if (rightChildString) {
-            returnString+= ` RightChild: ${rightChildString}`;
+        if (childListString) {
+            returnString+= ` Child List: ${childListString}`;
         }
         return returnString;
     }
