@@ -53,7 +53,8 @@ class ConditionNode {
     // if an operator "&&" is used, the expression will return a 
     // logical operator node with current node as left child, and 
     // the right operand as right child, and the operator type is "&&"
-    [Symbol.for('&&')] (rightOperand: ConditionNode): ConditionNode {
+    [Symbol.for('&')] (rightOperand: ConditionNode): ConditionNode {
+        
         let logicalOperatorNode = new ConditionNode(ConditionNodeType.LogicalOperatorNode, null, LogicalOperatorType.AND, null);
         logicalOperatorNode.leftChild = this;
         logicalOperatorNode.rightChild = rightOperand;
@@ -63,7 +64,7 @@ class ConditionNode {
     // if an operator "||" is used, the expression will return a
     // logical operator node with current node as left child, and
     // the right operand as right child, and the operator type is "||"
-    [Symbol.for('||')] (rightOperand: ConditionNode): ConditionNode {
+    [Symbol.for('|')] (rightOperand: ConditionNode): ConditionNode {
         let logicalOperatorNode = new ConditionNode(ConditionNodeType.LogicalOperatorNode, null, LogicalOperatorType.OR, null);
         logicalOperatorNode.leftChild = this;
         logicalOperatorNode.rightChild = rightOperand;
