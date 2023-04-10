@@ -48,21 +48,60 @@ class ConditionNode {
         return returnString;
     }
 
-    // if an operator "&" is used, the expression will return a 
-    // logical operator node with current node as left child, and 
-    // the right operand as right child, and the operator type is "&&"
+    // operator overloading for '&' operator
     [Symbol.for('&')] (rightOperand: ConditionNode): ConditionNode {
+
+        // if the current node is an expression node
         if (this.type === ConditionNodeType.ExpressionNode) {
-            let logicalOperatorNode = new ConditionNode(ConditionNodeType.LogicalOperatorNode, null, LogicalOperatorType.AND, null);
-            logicalOperatorNode.childList.push(this);
-            logicalOperatorNode.childList.push(rightOperand);
-            return logicalOperatorNode;
+
+            // if the right operand is an expression node, create a new logical operator node of type OR
+            if (rightOperand.type == ConditionNodeType.BooleanValueNode || rightOperand.type == ConditionNodeType.ExpressionNode){
+                let logicalOperatorNode = new ConditionNode(ConditionNodeType.LogicalOperatorNode, null, LogicalOperatorType.AND, null);
+                logicalOperatorNode.childList.push(this);
+                logicalOperatorNode.childList.push(rightOperand);
+                return logicalOperatorNode;
+            }
+
+            // if the right operand is a logical operator node, add the current node as the left child of the right operand
+            else if (rightOperand.type == ConditionNodeType.LogicalOperatorNode) {
+
+                // if the right operand is an AND operator, add the current node as the child to the child list of the right operand
+                if (rightOperand.logicalOperator == LogicalOperatorType.AND) {
+                    rightOperand.childList.push(this);
+                    return rightOperand;
+                }
+
+                else if (rightOperand.logicalOperator == LogicalOperatorType.OR) {
+                    let logicalOperatorNode = new ConditionNode(ConditionNodeType.LogicalOperatorNode, null, LogicalOperatorType.AND, null);
+                    logicalOperatorNode.childList.push(this);
+                    logicalOperatorNode.childList.push(rightOperand);
+                    return logicalOperatorNode;
+                }
+
+                else if (rightOperand.logicalOperator == LogicalOperatorType.NOT) {
+                    let logicalOperatorNode = new ConditionNode(ConditionNodeType.LogicalOperatorNode, null, LogicalOperatorType.AND, null);
+                    logicalOperatorNode.childList.push(this);
+                    logicalOperatorNode.childList.push(rightOperand);
+                    return logicalOperatorNode;
+                }
+
+                // else throw an exception
+                else {
+                    throw new Error("Invalid logical operator type");
+                }
+            }
         }
+
+        // if the current node is a logical operator node
         else if (this.type === ConditionNodeType.LogicalOperatorNode) {
+
+            // if the right operand is an expression node, add the right operand as the right child of the current node
             if (this.logicalOperator === LogicalOperatorType.AND) {
                 this.childList.push(rightOperand);
                 return this;
             }
+
+            // if the right operand is a logical operator node, add the right operand as the right child of the current node
             else if (this.logicalOperator === LogicalOperatorType.OR) {
                 let logicalOperatorNode = new ConditionNode(ConditionNodeType.LogicalOperatorNode, null, LogicalOperatorType.AND, null);
                 logicalOperatorNode.childList.push(this);
@@ -86,12 +125,10 @@ class ConditionNode {
 
     }
 
-    // if an operator "|" is used, the expression will return a
-    // logical operator node with current node as left child, and
-    // the right operand as right child, and the operator type is "||"
+    // operator overloading for '|' operator
     [Symbol.for('|')] (rightOperand: ConditionNode): ConditionNode {
         let logicalOperatorNode = new ConditionNode(ConditionNodeType.LogicalOperatorNode, null, LogicalOperatorType.OR, null);
-        
+
         return logicalOperatorNode;
     }
 
