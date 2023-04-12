@@ -46,13 +46,10 @@ const privateKey = '0xdf57089febbacf7ba0bc227dafbffa9fc08a93fdc68e1e42411a14efcf
 const JsonRpcProvider = 'https://mainnet.infura.io/v3/your-infura-project-id';
 
 // Run your script
-const result = await runtime.runScript(
-  script,
-  {
+const result = await runtime(script, {
     address: darcAddress,
     wallet: myWallet,
     privateKey: privateKey,
     provider: JsonRpcProvider
-  }
-);
+  });
 ```
