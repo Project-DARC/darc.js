@@ -1,7 +1,5 @@
 import * as prelude from './codeGenerator/codeGenerator';
 
-// import ethers from 'ethers';
-import { ethers } from 'ethers';
 
 export type RuntimeParam = {
   address: string;
@@ -13,7 +11,7 @@ export type RuntimeParam = {
  * The runtime function is used to transpile the code to the runtime code.
  * @param param 
  */
-export function runtime(scrint: string, param: RuntimeParam){
+export async function runtime(scrint: string, param: RuntimeParam){
   const { address, wallet, provider } = param;
-
+  
 }
