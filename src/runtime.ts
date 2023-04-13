@@ -1,6 +1,5 @@
 import * as prelude from './codeGenerator/codeGenerator';
 
-
 export type RuntimeParam = {
   address: string;
   wallet: string;
