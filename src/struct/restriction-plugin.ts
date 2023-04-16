@@ -22,7 +22,7 @@ enum RestrictionPluginReturnType {
   VOTING_NEEDED
 }
 
-enum RestrictionPluginType {
+enum RestrictionPluginType { 
   BEFORE_OPERATION,
   AFTER_OPERATION
 }
