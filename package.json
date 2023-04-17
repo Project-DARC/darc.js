@@ -26,6 +26,7 @@
     "@babel/preset-typescript": "^7.10.4",
     "@babel/standalone": "^7.10.5",
     "@babel/types": "^7.10.5",
+    "@ethersproject/bignumber": "^5.7.0",
     "@types/babel-template": "^6.25.2",
     "@types/chai": "^4.3.4",
     "@types/mocha": "^10.0.1",

@@ -1,5 +1,6 @@
 import {ethers} from 'ethers';
 import { expect } from 'chai';
+import {BigNumber} from '@ethersproject/bignumber';
 import 'mocha';
 const provider = new ethers.JsonRpcProvider('http://127.0.0.1:8545/');
 const abi = [
@@ -1304,15 +1305,93 @@ const darc_contract_address = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
 
 
-describe('Operator Test', 
+describe('RPC call test', 
   () => { 
     it('should return true', async () => { 
 
       const address = ethers.getAddress('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266');
-      const contract = new ethers.Contract(darc_contract_address, abi, provider);
-      const result = await contract.getTokenOwnerBalance(0, address);
+      const darc = new ethers.Contract(darc_contract_address, abi, provider);
+      const result = await darc.getTokenOwnerBalance(0, address);
+      const result2 = await darc.getMemberList();
       console.log("Here is the result: ");
       console.log(JSON.stringify(result.toString()));
+      console.log(JSON.stringify(result2.toString()));
+
+      const programOperatorAddress = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266";
+          // create a token class first
+
+      await darc.entrance({
+        programOperatorAddress: programOperatorAddress,
+        operations: [{
+          operatorAddress: programOperatorAddress,
+          opcode: 2, // create token class
+          param: {
+            UINT256_ARRAY: [],
+            ADDRESS_ARRAY: [],
+            STRING_ARRAY: ["Class1", "Class2"],
+            BOOL_ARRAY: [],
+            VOTING_RULE_ARRAY: [],
+            PARAMETER_ARRAY: [],
+            PLUGIN_ARRAY: [],
+            UINT256_2DARRAY: [
+              [BigNumber.from(0), BigNumber.from(1)],
+              [BigNumber.from(10), BigNumber.from(1)],
+              [BigNumber.from(10), BigNumber.from(1)],
+            ],
+            ADDRESS_2DARRAY: []
+          }
+        }], 
+      });
+    return;
+    // transfer tokens to another 2 addresses
+    const target1 = '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC';
+
+    const target2 = '0x90F79bf6EB2c4f870365E785982E1f101E93b906';
+
+    // mint tokens
+    await darc.entrance({
+      programOperatorAddress: programOperatorAddress,
+      operations: [{
+        operatorAddress: programOperatorAddress,
+        opcode: 1, // mint token
+        param: {
+          UINT256_ARRAY: [],
+          ADDRESS_ARRAY: [],
+          STRING_ARRAY: [],
+          BOOL_ARRAY: [],
+          VOTING_RULE_ARRAY: [],
+          PARAMETER_ARRAY: [],
+          PLUGIN_ARRAY: [],
+          UINT256_2DARRAY: [
+            [BigNumber.from(0), BigNumber.from(1)],  // token class = 0
+            [BigNumber.from(100), BigNumber.from(200)], // amount = 100
+          ],
+          ADDRESS_2DARRAY: [
+            [programOperatorAddress,programOperatorAddress], // to = programOperatorAddress
+          ]
+        }
+      },
+      {
+        operatorAddress: programOperatorAddress,
+        opcode: 3, // transfer tokens
+        param:{
+          UINT256_ARRAY: [],
+          ADDRESS_ARRAY: [],
+          STRING_ARRAY: [],
+          BOOL_ARRAY: [],
+          VOTING_RULE_ARRAY: [],
+          PARAMETER_ARRAY: [],
+          PLUGIN_ARRAY: [],
+          UINT256_2DARRAY: [
+            [BigNumber.from(0),BigNumber.from(0), BigNumber.from(1), BigNumber.from(1)],  // token class = 0
+            [BigNumber.from(10), BigNumber.from(20), BigNumber.from(30), BigNumber.from(40)], // amount = 100
+          ],
+          ADDRESS_2DARRAY: [
+            [target1, target2, target1, target2], 
+          ]
+        }
+      }], 
+    });
       expect(true).to.equal(true);
   }); 
 });
