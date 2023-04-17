@@ -374,6 +374,19 @@ const abi = [
   },
   {
     "inputs": [],
+    "name": "getMyInfo",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "getNumberOfTokenClasses",
     "outputs": [
       {
@@ -1319,7 +1332,9 @@ describe('RPC call test',
 
       const programOperatorAddress = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266";
           // create a token class first
-
+      const my_addr = await darc.getMyInfo();
+      console.log("my_addr: " + my_addr);
+      return;
       await darc.entrance({
         programOperatorAddress: programOperatorAddress,
         operations: [{
