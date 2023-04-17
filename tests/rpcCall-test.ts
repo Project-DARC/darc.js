@@ -1311,6 +1311,19 @@ const abi = [
     ],
     "stateMutability": "view",
     "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "addr",
+        "type": "address"
+      }
+    ],
+    "name": "writeAddr",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   }
 ];
 
@@ -1334,6 +1347,8 @@ describe('RPC call test',
           // create a token class first
       const my_addr = await darc.getMyInfo();
       console.log("my_addr: " + my_addr);
+      console.log(JSON.stringify(address));
+      await darc.writeAddr(address);
       return;
       await darc.entrance({
         programOperatorAddress: programOperatorAddress,
