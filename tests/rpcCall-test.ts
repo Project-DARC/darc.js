@@ -1349,7 +1349,7 @@ describe('RPC call test',
       console.log("my_addr: " + my_addr);
       console.log(JSON.stringify(address));
       await darc.writeAddr(address);
-      return;
+      return; 
       await darc.entrance({
         programOperatorAddress: programOperatorAddress,
         operations: [{
