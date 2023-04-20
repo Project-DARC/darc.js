@@ -1,7 +1,8 @@
 import {ethers} from 'ethers';
 import { expect } from 'chai';
-import {BigNumber} from '@ethersproject/bignumber';
+//import {BigNumber} from '@ethersproject/bignumber';
 import 'mocha';
+import { setTimeout } from "timers/promises";
 const provider = new ethers.JsonRpcProvider('http://127.0.0.1:8545/');
 const abi = [
   {
@@ -1356,12 +1357,14 @@ describe('RPC call test',
       console.log(JSON.stringify(result2.toString()));
 
       const programOperatorAddress = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266";
-          // create a token class first
+      const target1 = '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC';
+
+      const target2 = '0x90F79bf6EB2c4f870365E785982E1f101E93b906';
+  
+      // create a token class first
       const my_addr = await darc.getMyInfo();
       console.log("my_addr: " + my_addr);
       console.log(JSON.stringify(wallet_address));
-      await darc.writeAddr(wallet_address);
-
       await darc.entrance({
         programOperatorAddress: programOperatorAddress,
         operations: [{
@@ -1376,64 +1379,58 @@ describe('RPC call test',
             PARAMETER_ARRAY: [],
             PLUGIN_ARRAY: [],
             UINT256_2DARRAY: [
-              [BigNumber.from(0), BigNumber.from(1)],
-              [BigNumber.from(10), BigNumber.from(1)],
-              [BigNumber.from(10), BigNumber.from(1)],
+              // [BigInt(0), BigInt(1)],
+              // [BigInt(10), BigInt(1)],
+              // [BigInt(10), BigInt(1)],
+              [BigInt(0), BigInt(1)],
+              [BigInt(10), BigInt(1)],
+              [BigInt(10), BigInt(1)],
             ],
             ADDRESS_2DARRAY: []
           }
-        }], 
+        },
+        {
+          operatorAddress: programOperatorAddress,
+          opcode: 1, // mint token
+          param: {
+            UINT256_ARRAY: [],
+            ADDRESS_ARRAY: [],
+            STRING_ARRAY: [],
+            BOOL_ARRAY: [],
+            VOTING_RULE_ARRAY: [],
+            PARAMETER_ARRAY: [],
+            PLUGIN_ARRAY: [],
+            UINT256_2DARRAY: [
+              [BigInt(0), BigInt(1)],  // token class = 0
+              [BigInt(100), BigInt(200)], // amount = 100
+            ],
+            ADDRESS_2DARRAY: [
+              [programOperatorAddress,programOperatorAddress], // to = programOperatorAddress
+            ]
+          }
+        },
+        {
+          operatorAddress: programOperatorAddress,
+          opcode: 3, // transfer tokens
+          param:{
+            UINT256_ARRAY: [],
+            ADDRESS_ARRAY: [],
+            STRING_ARRAY: [],
+            BOOL_ARRAY: [],
+            VOTING_RULE_ARRAY: [],
+            PARAMETER_ARRAY: [],
+            PLUGIN_ARRAY: [],
+            UINT256_2DARRAY: [
+              [BigInt(0),BigInt(0), BigInt(1), BigInt(1)],  // token class = 0
+              [BigInt(10), BigInt(20), BigInt(30), BigInt(40)], // amount = 100
+            ],
+            ADDRESS_2DARRAY: [
+              [target1, target2, target1, target2], 
+            ]
+          }
+        }
+      ], 
       });
-    return;
-    // transfer tokens to another 2 addresses
-    const target1 = '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC';
-
-    const target2 = '0x90F79bf6EB2c4f870365E785982E1f101E93b906';
-
-    // mint tokens
-    await darc.entrance({
-      programOperatorAddress: programOperatorAddress,
-      operations: [{
-        operatorAddress: programOperatorAddress,
-        opcode: 1, // mint token
-        param: {
-          UINT256_ARRAY: [],
-          ADDRESS_ARRAY: [],
-          STRING_ARRAY: [],
-          BOOL_ARRAY: [],
-          VOTING_RULE_ARRAY: [],
-          PARAMETER_ARRAY: [],
-          PLUGIN_ARRAY: [],
-          UINT256_2DARRAY: [
-            [BigNumber.from(0), BigNumber.from(1)],  // token class = 0
-            [BigNumber.from(100), BigNumber.from(200)], // amount = 100
-          ],
-          ADDRESS_2DARRAY: [
-            [programOperatorAddress,programOperatorAddress], // to = programOperatorAddress
-          ]
-        }
-      },
-      {
-        operatorAddress: programOperatorAddress,
-        opcode: 3, // transfer tokens
-        param:{
-          UINT256_ARRAY: [],
-          ADDRESS_ARRAY: [],
-          STRING_ARRAY: [],
-          BOOL_ARRAY: [],
-          VOTING_RULE_ARRAY: [],
-          PARAMETER_ARRAY: [],
-          PLUGIN_ARRAY: [],
-          UINT256_2DARRAY: [
-            [BigNumber.from(0),BigNumber.from(0), BigNumber.from(1), BigNumber.from(1)],  // token class = 0
-            [BigNumber.from(10), BigNumber.from(20), BigNumber.from(30), BigNumber.from(40)], // amount = 100
-          ],
-          ADDRESS_2DARRAY: [
-            [target1, target2, target1, target2], 
-          ]
-        }
-      }], 
-    });
       expect(true).to.equal(true);
   }); 
 });
