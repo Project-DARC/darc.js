@@ -1335,9 +1335,21 @@ describe('RPC call test',
   () => { 
     it('should return true', async () => { 
 
-      const address = ethers.getAddress('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266');
-      const darc = new ethers.Contract(darc_contract_address, abi, provider);
-      const result = await darc.getTokenOwnerBalance(0, address);
+      /**
+       * create a signer with a private key
+       * Account #0: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 (10000 ETH)
+       * Private Key: 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+       * 
+       * (This is a test account, do not use it for anything other than testing)
+       */
+
+      const provider = new ethers.JsonRpcProvider('http://127.0.0.1:8545/');
+      const signer = new ethers.Wallet('0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80', provider);
+
+
+      const wallet_address = ethers.getAddress('0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266');
+      const darc = new ethers.Contract(darc_contract_address, abi, signer);
+      const result = await darc.getTokenOwnerBalance(0, wallet_address);
       const result2 = await darc.getMemberList();
       console.log("Here is the result: ");
       console.log(JSON.stringify(result.toString()));
@@ -1347,9 +1359,9 @@ describe('RPC call test',
           // create a token class first
       const my_addr = await darc.getMyInfo();
       console.log("my_addr: " + my_addr);
-      console.log(JSON.stringify(address));
-      await darc.writeAddr(address);
-      return; 
+      console.log(JSON.stringify(wallet_address));
+      await darc.writeAddr(wallet_address);
+
       await darc.entrance({
         programOperatorAddress: programOperatorAddress,
         operations: [{
