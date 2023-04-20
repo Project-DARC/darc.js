@@ -1,9 +1,10 @@
-import * as prelude from './codeGenerator/codeGenerator';
+import * as prelude from '../codeGenerator/codeGenerator';
+import {ethers} from 'ethers';
 
-export type RuntimeParam = {
+type RuntimeParam = {
   address: string;
-  wallet: string;
-  provider: string;
+  wallet: ethers.Wallet;
+  provider: ethers.Provider;
 }
 
 /**
@@ -12,5 +13,4 @@ export type RuntimeParam = {
  */
 export async function runtime(scrint: string, param: RuntimeParam){
   const { address, wallet, provider } = param;
-  
 }

@@ -1,6 +1,6 @@
 import {ethers} from 'ethers';
 import { expect } from 'chai';
-//import {BigNumber} from '@ethersproject/bignumber';
+
 import 'mocha';
 import { setTimeout } from "timers/promises";
 const provider = new ethers.JsonRpcProvider('http://127.0.0.1:8545/');
@@ -1328,6 +1328,8 @@ const abi = [
   }
 ];
 
+import { runtime } from '../src/runtime/runtime';
+
 const darc_contract_address = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
 
@@ -1431,6 +1433,12 @@ describe('RPC call test',
         }
       ], 
       });
+
+      runtime("", {
+        address: darc_contract_address,
+        wallet: signer,
+        provider: provider,
+      })
       expect(true).to.equal(true);
   }); 
 });
